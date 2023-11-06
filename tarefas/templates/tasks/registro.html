@@ -1,0 +1,155 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+<section class="form-register-container">
+    <section class="form-title">
+        <p>Registre-se</p><span><i class="fas fa-user-plus"></i></span>
+    </section>
+    <form method="POST" class="formulario-registro" id="registerForm">
+        {% csrf_token %}
+        <div class="nome-container">
+            <input type="text" class="inputNome inputs-registro" id="inputNome" name="nome" required>
+            <label for="inputNome">Seu Nome</label>
+        </div>
+        <div class="email-container">
+            <div class="ireContainer">
+                <input type="text" class="inputRegisterEmail inputs-registro" id="inputRegisterEmail" name="email" required>
+                <label for="inputRegisterEmail">E-mail</label>
+            </div>
+            <div class="validate-email">
+                <p class="validation-email">
+                    <small>E-mail inválido</small>
+                </p>
+            </div>
+        </div>
+        <div class="senha-container">
+            <div class="irsContainer">
+                <input type="password" class="inputRegisterSenha inputs-registro" id="inputRegisterSenha" name="password" required>
+                <label for="inputRegisterSenha">Crie uma senha</label>
+            </div>
+            <div class="validate-password">
+                <p>
+                    <small>
+                        <ul class="requisitos">
+                            <li>Pelo menos 8 caracteres<span id="tamanho"><i class="fas fa-check"></i></span></li>
+                            <li>Uma letra maiuscula<span id="maiusculas"><i class="fas fa-check"></i></span></li>
+                            <li>Uma letra minuscula<span id="minusculas"><i class="fas fa-check"></i></span></li>
+                            <li>Um número<span id="numeros"><i class="fas fa-check"></i></li></span>
+                        </ul>
+                    </small>
+                </p>
+            </div>
+        </div>
+        <div class="confirm-senha-container">
+            <input type="password" class="inputConfirm inputs-registro" id="inputConfirm" required>
+            <label for="inputConfirm">Confirme a senha</label>
+            <div class="validate-confirm">
+                <p>
+                    <small>As senhas estão diferentes</small>
+                </p>
+            </div>
+        </div>
+        <div class="button-area">
+            <button type="submit" class="botao-enviar" id="sendRegisterButton">Registrar</button>
+        </div>
+    </form>
+</section>
+<script>
+    //Criando a lógica/validação do formulário de registro do usuário
+
+console.log('SCRIPT!!!')
+console.log('teste')
+
+//Obtendo os elementos de validação do e-mail, senha e da confirmação de senha
+const validateEmail = document.querySelector('.validate-email');
+const checkMarks = document.querySelectorAll('.fa-check');
+const validateConfirm = document.querySelector('.validate-confirm');
+
+
+ //Obtendo os inputs e os valores dos inputs
+ const inputNome = document.querySelector('.inputNome');
+ const inputRegisterEmail = document.querySelector('.inputRegisterEmail');
+ const inputRegisterSenha = document.querySelector('.inputRegisterSenha');
+ const inputConfirm = document.querySelector('.inputConfirm');
+
+ //Variáveis que vão armazenar o botão e o formulario
+ let botaoRegistro = document.getElementById('sendRegisterButton');
+let formularioRegistro = document.getElementById('registerForm');
+
+//Lógica para validar o e-mail
+
+const regexEmail = /^[\w\.-]+@[A-Za-z\d\.-]+\.[A-Za-z]{2,}$/
+
+inputRegisterEmail.addEventListener('input', function(){
+    const emailFormatado = inputRegisterEmail.value;
+    if(regexEmail.test(emailFormatado)){
+        validateEmail.style.display = 'none';
+        botaoRegistro.disabled = false;
+    }else{
+        validateEmail.style.display = 'block';
+        botaoRegistro.disabled = true;
+    }
+})
+
+//Lógica para validação dos requisitos da senha
+
+//Obtendos os checkmarks dos requisitos
+const tamanho = document.getElementById('tamanho');
+const maiusculas = document.getElementById('maiusculas');
+const minusculas = document.getElementById('minusculas');
+const numeros = document.getElementById('numeros');
+
+inputRegisterSenha.addEventListener('input', function(){
+    let senhaRegistro = this.value.trim();
+    let tamanhoSenhaRegistro = senhaRegistro.length;
+
+    //Variáveis dos requisitos
+    let reqMaiusculas= false;
+    let reqMinusculas = false;
+    let reqNumeros = false;
+    let reqLength = false;
+
+    //Regexs
+    const regexMaiusculas = /^[A-Z]$/;
+    const regexMinusculas = /^[a-z]$/;
+    const regexNumeros = /^[\d]$/;
+
+    for(let i = 0; i < tamanhoSenhaRegistro; i++){
+        if(regexMaiusculas.test(senhaRegistro[i])){
+            reqMaiusculas = true;
+        }else if(regexMinusculas.test(senhaRegistro[i])){
+            reqMinusculas = true;
+        }else if(regexNumeros.test(senhaRegistro[i])){
+            reqNumeros = true;
+        }
+    }
+
+    if(tamanhoSenhaRegistro >= 8){
+        reqLength = true;
+    }
+
+    maiusculas.style.display = reqMaiusculas ? 'inline' : 'none';
+    minusculas.style.display = reqMinusculas ? 'inline' : 'none';
+    numeros.style.display = reqNumeros ? 'inline' : 'none';
+    tamanho.style.display = reqLength ? 'inline' : 'none';
+
+    if(!reqMaiusculas || !reqMinusculas || !reqNumeros || !reqLength){
+        botaoRegistro.disabled = true;
+    }else{
+        botaoRegistro.disabled = false;
+    }
+})
+
+//Criando a lógica para verificar se as duas senhas digitadas são iguais
+inputConfirm.addEventListener('input', function(){
+    const valor = this.value;
+    if(valor != inputRegisterSenha.value){
+        validateConfirm.style.display = 'block';
+        botaoRegistro.disabled = true;
+    }else{
+        validateConfirm.style.display = 'none';
+        botaoRegistro.disabled = false;
+    }
+})
+</script>
+{% endblock %}

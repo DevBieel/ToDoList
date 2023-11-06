@@ -1,0 +1,76 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+ <section class="principal-container-about">
+      <div class="about-main-title">
+        <p>Boas vindas usuário(a)</p>
+      </div>
+      <div class="about-text">
+        <p>Meu nome é Gabriel, sou estudante de Análise e Desenvolvimento de sistemas e esse é meu primeiro projeto FullStack, uma ToDo List.</p>
+        <p>Nesse meu projeto, utilizei o framework Django da linguagem de programação Python junto com HTML, CSS/Sass e JavaScript. É meu primeiro projeto feito com Django e estou muito feliz com o resultado.</p>
+        <p>Esse meu projeto foi inspirado no projeto do curso de Django do Hora de Codar mas com algumas modificações.</p>
+        <p>Nessa minha ToDo List é possível adicionar tarefas, editar ou excluir as tarefas e também buscar as tarefas pelo nome. Usei também o Paginator do Django para criar o sistema de paginação das tarefas.</p>
+        <p>Criei dois tópicos abaixo falando sobre o sistema de autenticação usado no projeto e sobre a conexão do projeto com o banco de dados: </p>
+      </div>
+      <section class="tabs-area">
+        <section class="auth-container">
+            <div class="seletor">
+                <p>Autenticação</p><span><i class="fas fa-plus symbols"></i></span>
+            </div>
+            <div class="conteudo">
+                Para a autenticação de usuários utilizei o Django auth com algumas modificações.<br>
+                No Django auth padrão o modelo de autenticação é com username e senha, mas no meu projeto fiz uma modificação oara que o modelo de login seja feito com e-mail e senha.<br>
+                Decidi implementar um login nessa ToDo List para que cada usuário para que as tarefas sejam atribuidas a um usuário específico, e também para treinar o Django auth.
+            </div>
+        </section>
+        <section class="db-container">
+            <div class="seletor">
+                <p>Banco de Dados</p><span><i class="fas fa-plus symbols"></i></span>
+            </div>
+            <div class="conteudo">
+                O SGBD que eu utilizei nesse projeto foi o MySQL. Usei o pacote mysql-connector-python para fazer a conexão do Django com o banco de dados.<br>
+                Para a criação das tabelas usei o brModelo para criar o DER(diagrama entidade relacionamento), para definir quais colunas seriam chave primária, chave estrangeira e etc.<br>
+            </div>
+        </section>
+      </section>
+ </section>
+
+<script>
+    const aboutPageBackButton = document.getElementById('about-page-back-button')
+    aboutPageBackButton.addEventListener('click', function() {
+        window.history.back();
+    })
+
+    //Criando a função dos tabs
+    const seletores = document.querySelectorAll('.seletor');
+    const conteudos = document.querySelectorAll('.conteudo');
+    const symbols = document.querySelectorAll('.symbols');
+
+    seletores.forEach((seletor, index) =>{
+        seletor.addEventListener('click', () =>{
+
+            const isSelectorActive = seletor.classList.contains('active');
+
+            seletores.forEach((otherSeletor) =>{otherSeletor.classList.remove('active')});
+
+            conteudos.forEach((content) =>{
+                content.classList.remove('active');
+            });
+
+            if(!isSelectorActive){
+                seletor.classList.add('active');
+                conteudos[index].classList.add('active');
+                symbols[index].classList.remove('fa-plus')
+                symbols[index].classList.add('fa-minus');
+            }else{
+                symbols[index].classList.remove('fa-minus');
+                symbols[index].classList.add('fa-plus');
+                
+            }
+
+            
+
+        })
+    })
+</script>
+{% endblock %}

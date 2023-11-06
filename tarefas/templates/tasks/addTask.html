@@ -1,0 +1,24 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+<section class="form-add-task-container">
+    <section class="main-title-add-task">
+        <h1>Vamos adicionar uma nova tarefa:</h1>
+    </section>
+<form method="POST" class="form-add-task">
+    {% csrf_token %}
+    <section class="add-task-title-container">
+        <label for="inputTitulo">Insira o titulo da tarefa que deseja adicionar</label>
+        <input type="text" id="inputTitulo" name="titulo" placeholder="Digite aqui..." required>
+    </section>
+    <section class="add-task-description-container">
+        <label for="description-area">Insira aqui a descrição da tarefa:</label>
+        <textarea name="descricao" id="description-area" cols="30" rows="10" maxlength="500" placeholder="Máximo de 500 caracteres" required></textarea>
+    </section>
+    <section class="buttons-add-task-container">
+        <button type="submit" class="add-task-button">Adicionar</button>
+        <a href="/"><button type="button" class="back-add-task-button">Voltar</button></a>
+    </section>
+</form>
+</section>
+{% endblock %}

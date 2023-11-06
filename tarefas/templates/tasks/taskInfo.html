@@ -1,0 +1,20 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+<section class="task-info-container">
+    <section class="task-info-main-title">
+        <h2>Informações da tarefa:</h2>
+    </section>
+    <section class="task-info-titulo">
+        <p><strong>Titulo: </strong>{{tarefa.titulo}}</p>
+    </section>
+    <section class="task-info-descricao">
+        <p><strong>Descrição: </strong>{{tarefa.descricao}}</p>
+    </section>
+    <section class="task-info-button-container">
+        <a href="/">
+            <button type="button" class="task-info-back-button">Voltar</button>
+        </a>
+    </section>
+</section>
+{% endblock %}

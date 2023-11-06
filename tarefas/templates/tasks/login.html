@@ -1,0 +1,40 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+<section class="form-login-container">
+    <section class="form-login-title">
+        <p>Login</p><span><i class="fas fa-user"></i></span>
+    </section>
+    <form method="POST" class="formulario-login" id="loginForm">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{next}}">
+
+        <div class="message-container">
+            {% if messages %}
+            {% for message in messages %}
+            <p>{{message}}</p>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="email-login-container">
+            <input type="email" class="inputLoginEmail" id="inputLoginEmail" name="email" required>
+            <label for="inputLoginEmail">E-mail</label>
+        </div>
+        <div class="senha-login-container">
+            <input type="password" class="inputLoginSenha" id="inputLoginSenha" name="password" required>
+            <label for="inputLoginSenha">Senha</label>
+        </div>
+        <div class="registre-se">
+            <a href="/auth/registro">
+                <p>
+                    Registre-se
+                </p>
+            </a>
+        </div>
+        <div class="button-login-area">
+            <button type="submit" class="enterButton" id="enterButton">Entrar</button>
+        </div>
+    </form>
+</section>
+{% endblock %}
